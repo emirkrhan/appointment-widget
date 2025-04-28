@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import styles from './chatWidget.module.css';
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,60 +32,28 @@ export default function ChatWidget() {
   };
 
   return (
-    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 9999 }}>
+    <div className={styles.widgetContainer}>
       <button
         onClick={toggleWidget}
-        style={{
-          backgroundColor: '#007bff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '50%',
-          width: '60px',
-          height: '60px',
-          fontSize: '24px',
-          cursor: 'pointer',
-        }}
+        className={styles.widgetButton}
       >
         💬
       </button>
 
       {isOpen && (
-        <div
-          style={{
-            marginTop: '10px',
-            width: '300px',
-            background: 'white',
-            padding: '15px',
-            borderRadius: '10px',
-            boxShadow: '0px 4px 8px rgba(0,0,0,0.2)',
-          }}
-        >
+        <div className={styles.chatBox}>
           <form onSubmit={sendMessage}>
             <input
               type="text"
               placeholder="Mesajınızı yazın..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '10px',
-                borderRadius: '5px',
-                border: '1px solid #ccc',
-                marginBottom: '10px',
-              }}
+              className={styles.chatInput}
               required
             />
             <button
               type="submit"
-              style={{
-                width: '100%',
-                backgroundColor: '#007bff',
-                color: 'white',
-                padding: '10px',
-                borderRadius: '5px',
-                border: 'none',
-                cursor: 'pointer',
-              }}
+              className={styles.submitButton}
             >
               Gönder
             </button>
