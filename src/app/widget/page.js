@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { createRoot } from 'react-dom/client';
 
 const Widget = dynamic(() => import('../../components/Widget'), { ssr: false });
 
@@ -10,9 +11,8 @@ export default function WidgetPage() {
     window.initWidget = () => {
       const widgetContainer = document.createElement('div');
       document.body.appendChild(widgetContainer);
-      import('react-dom').then((ReactDOM) => {
-        ReactDOM.render(<Widget />, widgetContainer);
-      });
+      const root = createRoot(widgetContainer);
+      root.render(<Widget />);
     };
 
     window.widgetConfig = {
