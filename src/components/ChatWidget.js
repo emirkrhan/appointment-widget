@@ -40,7 +40,7 @@ export default function ChatWidget() {
       </button>
 
       {isOpen && (
-        <div className={styles.chatBox}>
+        <div className='chatBox'>
           <form onSubmit={sendMessage}>
             <input
               type="text"
