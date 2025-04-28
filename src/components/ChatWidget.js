@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import styles from './chatWidget.module.css';
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,10 +31,10 @@ export default function ChatWidget() {
   };
 
   return (
-    <div className={styles.widgetContainer}>
+    <div className='widgetContainer'>
       <button
         onClick={toggleWidget}
-        className={styles.widgetButton}
+        className='widgetButton'
       >
         💬
       </button>
@@ -48,12 +47,12 @@ export default function ChatWidget() {
               placeholder="Mesajınızı yazın..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className={styles.chatInput}
+              className='chatInput'
               required
             />
             <button
               type="submit"
-              className={styles.submitButton}
+              className='submitButton'
             >
               Gönder
             </button>
