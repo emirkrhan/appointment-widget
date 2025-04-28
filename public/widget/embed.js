@@ -1,25 +1,43 @@
 (function() {
     function loadReactAndMount() {
-      if (!window.React || !window.ReactDOM || !window.ReactDOM.createRoot) {
+      if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
         console.error('React veya ReactDOM yüklü değil.');
         return;
       }
   
-      import('/_next/static/chunks/app/widget/page.js').then(() => {
-        // Sayfanın JS chunk'ı yüklendikten sonra mount işlemi
-        if (window.mountChatWidget) {
-          const projectId = document.currentScript.getAttribute('data-project-id') || 'default';
-          window.mountChatWidget({ projectId });
-        } else {
-          console.error('mountChatWidget bulunamadı.');
-        }
-      });
+      const container = document.createElement('div');
+      container.id = 'my-chat-widget-container';
+      document.body.appendChild(container);
+  
+      const root = ReactDOM.createRoot(container);
+  
+      root.render(
+        React.createElement('div', { style: { position: 'fixed', bottom: '20px', right: '20px', backgroundColor: 'white', padding: '10px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' } },
+          React.createElement('button', { onClick: () => alert('Chat açıldı!') }, 'Chat Başlat')
+        )
+      );
     }
   
-    if (document.readyState === 'complete') {
-      loadReactAndMount();
+    function loadScript(src, onLoad) {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = onLoad;
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  
+    if (typeof React === 'undefined') {
+      loadScript('https://unpkg.com/react@18/umd/react.production.min.js', () => {
+        if (typeof ReactDOM === 'undefined') {
+          loadScript('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', loadReactAndMount);
+        } else {
+          loadReactAndMount();
+        }
+      });
+    } else if (typeof ReactDOM === 'undefined') {
+      loadScript('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', loadReactAndMount);
     } else {
-      window.addEventListener('load', loadReactAndMount);
+      loadReactAndMount();
     }
   })();
   
