@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  output: 'export',
+  assetPrefix: './',
+  experimental: {
+    optimizePackageImports: ['react', 'react-dom']
+  }
+}
 
-export default nextConfig;
+export default nextConfig
