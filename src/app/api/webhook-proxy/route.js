@@ -1,12 +1,19 @@
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}
+
 export async function POST(request) {
   try {
-    // İstek gövdesini al
     const body = await request.json();
-    
-    // Webhook URL
     const webhookUrl = 'https://meftofficial2.app.n8n.cloud/webhook/f198089d-ee62-4f30-bf20-c870f5ce185f';
-    
-    // Webhook'a istek gönder
+
     const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: {
@@ -14,40 +21,28 @@ export async function POST(request) {
       },
       body: JSON.stringify(body),
     });
-    
-    // Yanıtı kontrol et
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*', // veya sadece izin verdiğin domain
+    };
+
     if (!response.ok) {
       return new Response(
         JSON.stringify({ error: 'Webhook isteği başarısız oldu' }),
-        {
-          status: response.status,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
+        { status: response.status, headers }
       );
     }
-    
-    // Başarılı yanıt
-    return new Response(
-      JSON.stringify({ success: true }),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+
+    return new Response(JSON.stringify({ success: true }), { status: 200, headers });
   } catch (error) {
-    console.error('Webhook proxy hatası:', error);
-    
-    // Hata yanıtı
     return new Response(
       JSON.stringify({ error: error.message || 'Bir hata oluştu' }),
       {
         status: 500,
         headers: {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
       }
     );

@@ -208,7 +208,6 @@
           metadata: config.metadata
         };
 
-        // API proxy'ye istek gönder
         const response = await fetch(proxyUrl, {
           method: 'POST',
           headers: {
@@ -240,7 +239,6 @@
       renderMessages();
     }
 
-    // Olay dinleyicileri
     elements.button.addEventListener('click', toggleWidget);
     elements.closeButton.addEventListener('click', toggleWidget);
     elements.messageForm.addEventListener('submit', sendMessage);
