@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Widget Örneği</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+        h2 {
+            margin-top: 40px;
+            color: #444;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #ddd;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .note {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 10px 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .example-section {
+            margin: 40px 0;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Widget Entegrasyon Rehberi</h1>
+
+    <p>Bu rehber, chat widget'ını web sitenize nasıl entegre edeceğinizi gösterir.</p>
+
+    <div class="note">
+        <strong>Not:</strong> Widget, herhangi bir web sayfasına kolayca eklenebilir ve kullanıcılarınızın sizinle iletişim kurmasını sağlar.
+    </div>
+
+    <h2>Temel Entegrasyon</h2>
+
+    <p>Web sitenize chat widget'ı eklemek için, aşağıdaki kodu sayfanızın <code>&lt;body&gt;</code> etiketinin kapanışından hemen önce ekleyin:</p>
+
+    <pre><code>&lt;!-- Chat Widget --&gt;
+&lt;script&gt;
+  window.ChatWidgetConfig = {
+    title: 'Destek Hattı',
+    welcomeMessage: 'Merhaba! Size nasıl yardımcı olabiliriz?',
+    widgetId: 'my-website',
+    metadata: {
+      page: window.location.pathname
+    }
+  };
+&lt;/script&gt;
+&lt;script src="https://appointment-widget-umber.vercel.app/widget/embed.js" async&gt;&lt;/script&gt;</code></pre>
+
+    <h2>Özelleştirme Seçenekleri</h2>
+
+    <p>Widget'ı özelleştirmek için <code>window.ChatWidgetConfig</code> nesnesini kullanabilirsiniz:</p>
+
+    <pre><code>window.ChatWidgetConfig = {
+  // Widget başlığı
+  title: 'Destek Hattı',
+
+  // Karşılama mesajı
+  welcomeMessage: 'Merhaba! Size nasıl yardımcı olabiliriz?',
+
+  // Widget kimliği (istatistikler için)
+  widgetId: 'my-website',
+
+  // Ek meta veriler (isteğe bağlı)
+  metadata: {
+    page: window.location.pathname,
+    userType: 'visitor'
+  }
+};</code></pre>
+
+    <h2>JavaScript API</h2>
+
+    <p>Widget yüklendikten sonra, JavaScript API'sini kullanarak widget'ı kontrol edebilirsiniz:</p>
+
+    <pre><code>// Widget'ı aç
+ChatWidget.open();
+
+// Widget'ı kapat
+ChatWidget.close();
+
+// Widget'ı aç/kapat
+ChatWidget.toggle();
+
+// Yapılandırmayı güncelle
+ChatWidget.setConfig({
+  title: 'Yeni Başlık',
+  welcomeMessage: 'Yeni karşılama mesajı'
+});</code></pre>
+
+    <div class="example-section">
+        <h2>Canlı Örnek</h2>
+        <p>Bu sayfada chat widget'ı zaten yüklü. Sağ alt köşedeki chat ikonuna tıklayarak test edebilirsiniz.</p>
+        <p>Aşağıdaki butonları kullanarak widget'ı kontrol edebilirsiniz:</p>
+
+        <button onclick="ChatWidget.open()" style="padding: 8px 16px; margin-right: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Widget'ı Aç</button>
+        <button onclick="ChatWidget.close()" style="padding: 8px 16px; margin-right: 10px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Widget'ı Kapat</button>
+        <button onclick="ChatWidget.toggle()" style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Aç/Kapat</button>
+    </div>
+
+    <!-- CORS Hakkında Bilgi -->
+    <div class="note">
+        <strong>CORS Hakkında Not:</strong> Webhook'a doğrudan istek gönderirken CORS hatası alabilirsiniz. Bu örnekte, CORS proxy kullanarak bu sorunu çözüyoruz. Gerçek bir uygulamada, webhook sağlayıcınızın CORS ayarlarını yapılandırmanız önerilir.
+    </div>
+
+    <!-- Chat Widget -->
+    <script>
+      window.ChatWidgetConfig = {
+        title: 'Örnek Chat',
+        welcomeMessage: 'Merhaba! Bu bir örnek chat widget\'ıdır. Test etmek için bir mesaj gönderebilirsiniz.',
+        widgetId: 'example-page',
+        metadata: {
+          page: 'example.html'
+        }
+      };
+    </script>
+    <script src="embed.js" async></script>
+</body>
+</html>
