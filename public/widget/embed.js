@@ -8,7 +8,6 @@
     baseUrl: 'https://appointment-widget-umber.vercel.app' // Kendi Vercel URL'inizi buraya yazın
   };
 
-  // Kullanıcı yapılandırması ile varsayılan yapılandırmayı birleştir
   let config = {};
 
   // Global yapılandırma nesnesini kontrol et
@@ -198,8 +197,7 @@
       renderMessages();
 
       try {
-        // Kendi API proxy'miz üzerinden webhook'a mesajı gönder
-        const proxyUrl = `${config.baseUrl}/api/webhook-proxy`;
+        const proxyUrl = `${defaultConfig.baseUrl}/api/webhook-proxy`;
 
         const data = {
           message: userMessage.text,

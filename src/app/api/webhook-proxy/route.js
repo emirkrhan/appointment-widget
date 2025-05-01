@@ -24,7 +24,7 @@ export async function POST(request) {
 
     const headers = {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*', // veya sadece izin verdiğin domain
+      'Access-Control-Allow-Origin': '*', 
     };
 
     if (!response.ok) {
