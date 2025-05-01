@@ -12,7 +12,7 @@ export async function OPTIONS() {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const webhookUrl = 'https://meftofficial2.app.n8n.cloud/webhook-test/f198089d-ee62-4f30-bf20-c870f5ce185f';
+    const webhookUrl = 'https://meftofficial2.app.n8n.cloud/webhook/f198089d-ee62-4f30-bf20-c870f5ce185f';
 
     const response = await fetch(webhookUrl, {
       method: 'POST',
