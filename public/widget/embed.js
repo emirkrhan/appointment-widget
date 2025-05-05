@@ -17,6 +17,8 @@
     const iframe = document.createElement('iframe');
     iframe.id = 'chat-widget-iframe';
     iframe.src = `${config.baseUrl}/widget/chat?widgetId=${config.widgetId}`;
+
+    // Temiz iframe: dışarıdan hiçbir stil yok
     iframe.style.position = 'fixed';
     iframe.style.bottom = '20px';
     iframe.style.right = '20px';
@@ -24,7 +26,8 @@
     iframe.style.height = '500px';
     iframe.style.border = 'none';
     iframe.style.zIndex = '9999';
-    iframe.style.borderRadius = '12px';
+    iframe.style.outline = 'none';
+    iframe.style.background = 'transparent'; // Bazı tarayıcılarda emin olmak için
 
     document.body.appendChild(iframe);
   }
@@ -35,3 +38,4 @@
     mountWidget();
   }
 })();
+changed
