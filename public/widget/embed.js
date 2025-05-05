@@ -25,7 +25,6 @@
     iframe.style.border = 'none';
     iframe.style.zIndex = '9999';
     iframe.style.borderRadius = '12px';
-    iframe.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
 
     document.body.appendChild(iframe);
   }
