@@ -24,7 +24,7 @@ export default function ChatPage ({ searchParams }) {
     setIsLoading(true)
 
     try {
-      const response = await fetch('/api/webhook-proxy/route', {
+      const response = await fetch('/api/webhook-proxy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
