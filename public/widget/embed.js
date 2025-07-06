@@ -1,7 +1,10 @@
 ;(function () {
   const defaultConfig = {
     widgetId: 'default',
-    baseUrl: 'https://appointment-widget-umber.vercel.app', // Next.js domain
+    baseUrl: window.location.hostname === 'localhost' 
+      ? 'http://localhost:3002' 
+      : 'https://appointment-widget-umber.vercel.app',
+    dbName: 'default_db'
   };
 
   let config = {};
@@ -16,9 +19,14 @@
 
     const iframe = document.createElement('iframe');
     iframe.id = 'chat-widget-iframe';
-    iframe.src = `${config.baseUrl}/widget/chat?widgetId=${config.widgetId}`;
+    
+    // URL parametrelerine dbName'i de ekle
+    const urlParams = new URLSearchParams({
+      widgetId: config.widgetId,
+      dbName: config.dbName
+    });
+    iframe.src = `${config.baseUrl}/widget/chat?${urlParams.toString()}`;
 
-    // Temiz iframe: dışarıdan hiçbir stil yok
     iframe.style.position = 'fixed';
     iframe.style.bottom = '20px';
     iframe.style.right = '20px';
@@ -27,7 +35,15 @@
     iframe.style.border = 'none';
     iframe.style.zIndex = '9999';
     iframe.style.outline = 'none';
-    iframe.style.background = 'transparent'; // Bazı tarayıcılarda emin olmak için
+    iframe.style.background = 'transparent';
+
+    // Mobile responsive
+    if (window.innerWidth <= 768) {
+      iframe.style.width = '90vw';
+      iframe.style.height = '70vh';
+      iframe.style.right = '5vw';
+      iframe.style.bottom = '10px';
+    }
 
     document.body.appendChild(iframe);
   }
@@ -38,4 +54,3 @@
     mountWidget();
   }
 })();
-changed

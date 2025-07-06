@@ -1,13 +1,17 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, use } from 'react'
 
 export default function ChatWidget ({ searchParams }) {
-  const widgetId = searchParams?.widgetId || 'default'
+  const resolvedSearchParams = use(searchParams)
+  const widgetId = resolvedSearchParams?.widgetId || 'default'
+  const dbName = resolvedSearchParams?.dbName || 'default_db'
+  
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`)
   const messagesEndRef = useRef(null)
 
   useEffect(() => {
@@ -34,24 +38,27 @@ export default function ChatWidget ({ searchParams }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: userMessage.text,
-          timestamp: userMessage.timestamp,
-          widgetId,
-          metadata: {}
+          input: userMessage.text,
+          conversationId: "389JWDIJ89AWIODOAWDA",
+          dbName: dbName,
+          widgetId: widgetId,
+          timestamp: userMessage.timestamp
         })
       })
 
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || 'Mesaj gönderilemedi')
 
+      // API'den gelen gerçek cevabı kullan
       const botMessage = {
         id: Date.now() + 1,
-        text: 'Teşekkürler, mesajınız alındı! 🎉',
+        text: data.response || data.message || 'Mesajınız alındı! 🎉',
         sender: 'bot',
         timestamp: new Date().toISOString()
       }
       setMessages(prev => [...prev, botMessage])
     } catch (err) {
+      console.error('Chat error:', err)
       setMessages(prev => [
         ...prev,
         {
@@ -68,7 +75,6 @@ export default function ChatWidget ({ searchParams }) {
 
   return (
     <div>
-      {/* Yuvarlak Buton */}
       <button
         onClick={() => setIsOpen(prev => !prev)}
         style={{
@@ -90,7 +96,6 @@ export default function ChatWidget ({ searchParams }) {
         💬
       </button>
 
-      {/* Chat Penceresi */}
       {isOpen && (
         <div
           style={{
