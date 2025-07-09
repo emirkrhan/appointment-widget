@@ -39,7 +39,7 @@ export default function ChatWidget ({ searchParams }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           input: userMessage.text,
-          conversationId: "389JWDIJ89AWIODOAWDA",
+          conversationId: sessionId, // Her widget session'ı için unique ID
           dbName: dbName,
           widgetId: widgetId,
           timestamp: userMessage.timestamp
@@ -49,7 +49,7 @@ export default function ChatWidget ({ searchParams }) {
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || 'Mesaj gönderilemedi')
 
-      // API'den gelen gerçek cevabı kullan
+      // Mastra API'den gelen cevabı parse et
       const botMessage = {
         id: Date.now() + 1,
         text: data.response || data.message || 'Mesajınız alındı! 🎉',
@@ -123,7 +123,7 @@ export default function ChatWidget ({ searchParams }) {
               fontWeight: 'bold'
             }}
           >
-            Destek
+            AI Asistan
           </div>
 
           {/* Mesajlar */}
@@ -135,36 +135,54 @@ export default function ChatWidget ({ searchParams }) {
               background: '#f9f9f9'
             }}
           >
-            {messages.map(msg => (
-              <div
-                key={msg.id}
-                style={{
-                  marginBottom: '8px',
-                  textAlign: msg.sender === 'user' ? 'right' : 'left'
-                }}
-              >
+            {messages.length === 0 ? (
+              <div style={{ textAlign: 'center', color: '#666', fontSize: '14px', marginTop: '20px' }}>
+                Merhaba! Size nasıl yardımcı olabilirim?
+              </div>
+            ) : (
+              messages.map(msg => (
                 <div
+                  key={msg.id}
                   style={{
-                    display: 'inline-block',
-                    padding: '8px 12px',
-                    borderRadius: '16px',
-                    backgroundColor:
-                      msg.sender === 'user'
-                        ? '#4A90E2'
-                        : msg.sender === 'bot'
-                        ? '#e0e0e0'
-                        : '#ffcccc',
-                    color: msg.sender === 'user' ? '#fff' : '#000',
-                    maxWidth: '80%',
-                    wordWrap: 'break-word',
-                    fontSize: '14px'
+                    marginBottom: '8px',
+                    textAlign: msg.sender === 'user' ? 'right' : 'left'
                   }}
                 >
-                  {msg.text}
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      padding: '8px 12px',
+                      borderRadius: '16px',
+                      backgroundColor:
+                        msg.sender === 'user'
+                          ? '#4A90E2'
+                          : msg.sender === 'bot'
+                          ? '#e0e0e0'
+                          : '#ffcccc',
+                      color: msg.sender === 'user' ? '#fff' : '#000',
+                      maxWidth: '80%',
+                      wordWrap: 'break-word',
+                      fontSize: '14px'
+                    }}
+                  >
+                    {msg.text}
+                  </div>
+                </div>
+              ))
+            )}
+            {isLoading && (
+              <div style={{ textAlign: 'center', color: '#666', fontSize: '12px' }}>
+                <div style={{ 
+                  display: 'inline-block',
+                  padding: '8px 12px',
+                  backgroundColor: '#f0f0f0',
+                  borderRadius: '16px',
+                  animation: 'pulse 1.5s infinite'
+                }}>
+                  AI düşünüyor...
                 </div>
               </div>
-            ))}
-            {isLoading && <p>Yükleniyor...</p>}
+            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -184,26 +202,36 @@ export default function ChatWidget ({ searchParams }) {
                 flex: 1,
                 padding: '10px',
                 border: 'none',
-                fontSize: '14px'
+                fontSize: '14px',
+                outline: 'none'
               }}
+              disabled={isLoading}
               required
             />
             <button
               type='submit'
+              disabled={isLoading}
               style={{
-                background: '#4A90E2',
+                background: isLoading ? '#ccc' : '#4A90E2',
                 color: '#fff',
                 border: 'none',
                 padding: '0 16px',
-                cursor: 'pointer',
+                cursor: isLoading ? 'not-allowed' : 'pointer',
                 fontSize: '14px'
               }}
             >
-              Gönder
+              {isLoading ? '...' : 'Gönder'}
             </button>
           </form>
         </div>
       )}
+      
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
     </div>
   )
 }

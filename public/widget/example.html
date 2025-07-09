@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Widget Örneği</title>
+    <title>Mastra AI Chat Widget Örneği</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -38,62 +38,105 @@
             margin: 20px 0;
             border-radius: 0 4px 4px 0;
         }
+        .success {
+            background-color: #f6ffed;
+            border-left: 4px solid #52c41a;
+            padding: 10px 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
         .example-section {
             margin: 40px 0;
             padding: 20px;
             border: 1px solid #eee;
             border-radius: 8px;
         }
+        button {
+            padding: 8px 16px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <h1>Chat Widget Entegrasyon Rehberi</h1>
+    <h1>🤖 Mastra AI Chat Widget Entegrasyon Rehberi</h1>
 
-    <p>Bu rehber, chat widget'ını web sitenize nasıl entegre edeceğinizi gösterir.</p>
-
-    <div class="note">
-        <strong>Not:</strong> Widget, herhangi bir web sayfasına kolayca eklenebilir ve kullanıcılarınızın sizinle iletişim kurmasını sağlar.
+    <div class="success">
+        <strong>✅ Başarılı Entegrasyon:</strong> Widget artık Mastra Cloud API ile çalışacak şekilde yapılandırıldı!
     </div>
 
-    <h2>Temel Entegrasyon</h2>
+    <p>Bu rehber, Mastra AI Chat Widget'ının web sitenize nasıl entegre edileceğini gösterir.</p>
 
-    <p>Web sitenize chat widget'ı eklemek için, aşağıdaki kodu sayfanızın <code>&lt;body&gt;</code> etiketinin kapanışından hemen önce ekleyin:</p>
+    <div class="note">
+        <strong>🚀 Yeni Özellikler:</strong>
+        <ul>
+            <li>Mastra Cloud API entegrasyonu</li>
+            <li>Gerçek zamanlı AI yanıtları</li>
+            <li>Oturum yönetimi</li>
+            <li>Gelişmiş hata yakalama</li>
+        </ul>
+    </div>
 
-    <pre><code>&lt;!-- Chat Widget --&gt;
+    <h2>📋 Temel Entegrasyon</h2>
+
+    <p>Web sitenize Mastra AI chat widget'ı eklemek için, aşağıdaki kodu sayfanızın <code>&lt;body&gt;</code> etiketinin kapanışından hemen önce ekleyin:</p>
+
+    <pre><code>&lt;!-- Mastra AI Chat Widget --&gt;
 &lt;script&gt;
   window.ChatWidgetConfig = {
-    title: 'Destek Hattı',
-    welcomeMessage: 'Merhaba! Size nasıl yardımcı olabiliriz?',
-    widgetId: 'my-website',
+    title: 'AI Asistan',
+    welcomeMessage: 'Merhaba! Size nasıl yardımcı olabilirim?',
+    widgetId: 'my-website-ai',
+    dbName: 'production_db',
     metadata: {
-      page: window.location.pathname
+      page: window.location.pathname,
+      userAgent: navigator.userAgent
     }
   };
 &lt;/script&gt;
 &lt;script src="https://appointment-widget-umber.vercel.app/widget/embed.js" async&gt;&lt;/script&gt;</code></pre>
 
-    <h2>Özelleştirme Seçenekleri</h2>
+    <h2>⚙️ Yapılandırma Seçenekleri</h2>
 
     <p>Widget'ı özelleştirmek için <code>window.ChatWidgetConfig</code> nesnesini kullanabilirsiniz:</p>
 
     <pre><code>window.ChatWidgetConfig = {
   // Widget başlığı
-  title: 'Destek Hattı',
+  title: 'AI Asistan',
 
   // Karşılama mesajı
-  welcomeMessage: 'Merhaba! Size nasıl yardımcı olabiliriz?',
+  welcomeMessage: 'Merhaba! Size nasıl yardımcı olabilirim?',
 
-  // Widget kimliği (istatistikler için)
-  widgetId: 'my-website',
+  // Widget kimliği (analytics için)
+  widgetId: 'my-website-ai',
 
-  // Ek meta veriler (isteğe bağlı)
+  // Veritabanı adı (Mastra Cloud)
+  dbName: 'production_db',
+
+  // Ek meta veriler
   metadata: {
     page: window.location.pathname,
-    userType: 'visitor'
+    userType: 'visitor',
+    language: 'tr'
   }
 };</code></pre>
 
-    <h2>JavaScript API</h2>
+    <h2>🔧 JavaScript API</h2>
 
     <p>Widget yüklendikten sonra, JavaScript API'sini kullanarak widget'ı kontrol edebilirsiniz:</p>
 
@@ -108,33 +151,93 @@ ChatWidget.toggle();
 
 // Yapılandırmayı güncelle
 ChatWidget.setConfig({
-  title: 'Yeni Başlık',
-  welcomeMessage: 'Yeni karşılama mesajı'
+  title: 'Yeni AI Asistan',
+  welcomeMessage: 'Güncellenmiş karşılama mesajı',
+  dbName: 'new_database'
 });</code></pre>
 
     <div class="example-section">
-        <h2>Canlı Örnek</h2>
-        <p>Bu sayfada chat widget'ı zaten yüklü. Sağ alt köşedeki chat ikonuna tıklayarak test edebilirsiniz.</p>
+        <h2>🎮 Canlı Test</h2>
+        <p>Bu sayfada Mastra AI chat widget'ı zaten yüklü. Sağ alt köşedeki chat ikonuna tıklayarak gerçek AI ile konuşabilirsiniz.</p>
         <p>Aşağıdaki butonları kullanarak widget'ı kontrol edebilirsiniz:</p>
 
-        <button onclick="ChatWidget.open()" style="padding: 8px 16px; margin-right: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Widget'ı Aç</button>
-        <button onclick="ChatWidget.close()" style="padding: 8px 16px; margin-right: 10px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Widget'ı Kapat</button>
-        <button onclick="ChatWidget.toggle()" style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Aç/Kapat</button>
+        <button onclick="ChatWidget.open()" class="btn-primary">Widget'ı Aç</button>
+        <button onclick="ChatWidget.close()" class="btn-secondary">Widget'ı Kapat</button>
+        <button onclick="ChatWidget.toggle()" class="btn-success">Aç/Kapat</button>
     </div>
 
-    <!-- CORS Hakkında Bilgi -->
+    <h2>🔗 Mastra Cloud API Entegrasyonu</h2>
+
     <div class="note">
-        <strong>CORS Hakkında Not:</strong> Webhook'a doğrudan istek gönderirken CORS hatası alabilirsiniz. Bu örnekte, CORS proxy kullanarak bu sorunu çözüyoruz. Gerçek bir uygulamada, webhook sağlayıcınızın CORS ayarlarını yapılandırmanız önerilir.
+        <strong>API Endpoint:</strong> <code>https://white-screeching-school.mastra.cloud/api/agents/myAgent/generate</code>
+        <br><br>
+        Widget otomatik olarak bu endpoint'e POST isteği gönderir ve AI yanıtlarını alır.
     </div>
 
-    <!-- Chat Widget -->
+    <h3>📊 Gönderilen Veri Formatı:</h3>
+    <pre><code>{
+  "input": "Kullanıcının mesajı",
+  "conversationId": "session_1752067890123_abc123def",
+  "timestamp": "2025-07-09T13:28:56.000Z"
+}</code></pre>
+
+    <h3>📨 Beklenen Yanıt Formatı:</h3>
+    <pre><code>{
+  "text": "AI'dan gelen yanıt mesajı",
+  "usage": {
+    "promptTokens": 502,
+    "completionTokens": 25,
+    "totalTokens": 527
+  }
+}</code></pre>
+
+    <h2>🛠️ Hata Ayıklama</h2>
+
+    <p>Widget'ın düzgün çalışıp çalışmadığını kontrol etmek için:</p>
+
+    <ol>
+        <li>Tarayıcı geliştirici araçlarını açın (F12)</li>
+        <li>Console sekmesine gidin</li>
+        <li>Widget'ta bir mesaj gönderin</li>
+        <li>API isteklerini ve yanıtlarını console'da görebilirsiniz</li>
+    </ol>
+
+    <div class="note">
+        <strong>🔍 Debug Logları:</strong> Widget, tüm API isteklerini ve yanıtlarını console'a yazdırır. Production ortamında bu logları kaldırmayı unutmayın.
+    </div>
+
+    <h2>📱 Mobil Uyumluluk</h2>
+
+    <p>Widget otomatik olarak mobil cihazlara uyum sağlar:</p>
+    <ul>
+        <li>768px ve altında tam ekran moduna geçer</li>
+        <li>Dokunmatik etkileşimleri destekler</li>
+        <li>Responsive tasarım</li>
+    </ul>
+
+    <h2>🔐 Güvenlik</h2>
+
+    <div class="note">
+        <strong>Güvenlik Notları:</strong>
+        <ul>
+            <li>Widget, sadece HTTPS üzerinden çalışır</li>
+            <li>CORS güvenlik politikaları uygulanır</li>
+            <li>API anahtarları frontend'de saklanmaz</li>
+            <li>Tüm iletişim şifrelenir</li>
+        </ul>
+    </div>
+
+    <!-- Mastra AI Chat Widget -->
     <script>
       window.ChatWidgetConfig = {
-        title: 'Örnek Chat',
-        welcomeMessage: 'Merhaba! Bu bir örnek chat widget\'ıdır. Test etmek için bir mesaj gönderebilirsiniz.',
-        widgetId: 'example-page',
+        title: 'Mastra AI Asistan',
+        welcomeMessage: 'Merhaba! Ben bir AI asistanım. Size nasıl yardımcı olabilirim?',
+        widgetId: 'example-mastra-ai',
+        dbName: 'example_db',
         metadata: {
-          page: 'example.html'
+          page: 'example.html',
+          version: '2.0.0',
+          integration: 'mastra-cloud'
         }
       };
     </script>
