@@ -22,24 +22,28 @@ export async function POST(request) {
     console.log('Timestamp:', body.timestamp);
     console.log('=====================================');
     
-    const webhookUrl = 'http://localhost:3001/save-step';
+    // Mastra Cloud API endpoint'i
+    const mastraApiUrl = 'https://white-screeching-school.mastra.cloud/api/agents/myAgent/generate';
 
+    // Mastra Cloud API'ye gönderilecek data formatı
     const requestData = {
       input: body.input,
-      conversationId: body.conversationId,
-      dbName: body.dbName
+      conversationId: body.conversationId || "default_conversation",
+      // Mastra Cloud API'nin beklediği diğer parametreler varsa buraya ekleyin
     };
 
-    // Debug: Backend'e gönderilen veriyi de bas
-    console.log('=== BACKEND\'E GÖNDERİLEN VERİ ===');
+    // Debug: Mastra API'ye gönderilen veriyi bas
+    console.log('=== MASTRA API\'YE GÖNDERİLEN VERİ ===');
     console.log(JSON.stringify(requestData, null, 2));
-    console.log('URL:', webhookUrl);
-    console.log('==================================');
+    console.log('URL:', mastraApiUrl);
+    console.log('====================================');
 
-    const response = await fetch(webhookUrl, {
+    const response = await fetch(mastraApiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        // Mastra Cloud API için gerekli auth header'ları varsa buraya ekleyin
+        // 'Authorization': 'Bearer YOUR_API_KEY',
       },
       body: JSON.stringify(requestData),
     });
@@ -50,22 +54,29 @@ export async function POST(request) {
     };
 
     if (!response.ok) {
-      console.error('Backend response error:', response.status, response.statusText);
+      console.error('Mastra API response error:', response.status, response.statusText);
       return new Response(
-        JSON.stringify({ error: 'Backend API\'sine bağlanılamadı' }),
+        JSON.stringify({ error: 'Mastra API\'sine bağlanılamadı' }),
         { status: response.status, headers }
       );
     }
 
-    // Backend'den gelen gerçek cevabı al ve döndür
+    // Mastra API'den gelen yanıt
     const responseData = await response.json();
     
-    // Debug: Backend'den gelen cevabı da bas
-    console.log('=== BACKEND\'DEN GELEN CEVAP ===');
+    // Debug: Mastra API'den gelen cevabı bas
+    console.log('=== MASTRA API\'DEN GELEN CEVAP ===');
     console.log(JSON.stringify(responseData, null, 2));
-    console.log('===============================');
+    console.log('==================================');
     
-    return new Response(JSON.stringify(responseData), { status: 200, headers });
+    // Mastra API'den gelen yanıtı widget'a uygun formata dönüştür
+    const widgetResponse = {
+      response: responseData.text || responseData.response || responseData.message || 'Yanıt alındı',
+      // Mastra API'den gelen diğer veriler varsa buraya ekleyin
+      data: responseData
+    };
+    
+    return new Response(JSON.stringify(widgetResponse), { status: 200, headers });
     
   } catch (error) {
     console.error('Webhook proxy error:', error);
